@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { useEffect } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 
 // Layout
@@ -18,6 +19,10 @@ import CodingStatsPage from './pages/CodingStatsPage';
 
 function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location.pathname]);
 
   return (
     <ThemeProvider>
