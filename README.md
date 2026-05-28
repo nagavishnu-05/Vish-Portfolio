@@ -1,16 +1,95 @@
-# React + Vite
+# Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal portfolio website built with React, Vite, Tailwind CSS, and modern UI animation.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project is a responsive portfolio site showcasing projects, skills, experience, certificates, and a contact form. It uses a clean design system with card layouts, motion transitions, and consistent dark/light theming.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + Vite frontend application
+- Responsive portfolio pages
+- Animated page transitions with `framer-motion`
+- Contact form with inline success/error feedback
+- Custom UI components: buttons, cards, badges, theme toggle
+- Clean Tailwind-based styling and utility-first layout
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 19
+- Vite 6
+- Tailwind CSS 4
+- Framer Motion
+- Lucide icons
+- React Router DOM
+- ESLint for linting
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20+ installed
+- Git installed
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run locally
+
+```bash
+npm run dev
+```
+
+Open the local Vite URL shown in the terminal to view the site.
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+## Project Structure
+
+- `src/` - application source code
+  - `components/` - reusable UI components
+  - `layout/` - layout and page transition components
+  - `pages/` - individual page views
+  - `context/` - theme context provider
+  - `styles/` - global styles
+- `public/` - static assets, including `favicon.svg`
+- `server/` - backend or API-related files
+
+## Favicon / Site Icon
+
+The browser tab icon is defined in `index.html`:
+
+```html
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+```
+
+That means the app uses `public/favicon.svg` as the site icon. For a general portfolio icon, use:
+
+- a simple logo or monogram (initials like `N` or `NV`)
+- a clean geometric mark or glyph
+- a single-color SVG that is easy to recognize at small sizes
+
+If you want a fallback for older browsers, you can also add a `.ico` version and additional `<link>` tags.
+
+## Notes
+
+- Keep environment files out of Git by using `.gitignore`
+- The contact form now shows inline approvals and errors directly in the page
+
+---
+
+Made for a clean, professional portfolio presentation with easy local development and build steps.
