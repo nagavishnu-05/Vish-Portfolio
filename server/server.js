@@ -11,16 +11,66 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Email transporter configuration
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+// Email transporter configuration with provider detection, timeouts and retries
+function createTransporter() {
+  const service = (process.env.EMAIL_SERVICE || 'gmail').toLowerCase();
+  let transportOptions;
+
+  if (service === 'sendgrid') {
+    transportOptions = {
+      host: 'smtp.sendgrid.net',
+      port: 587,
+      secure: false,
+      auth: { user: 'apikey', pass: process.env.EMAIL_PASSWORD },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+    };
+  } else if (service === 'gmail') {
+    transportOptions = {
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+    };
+  } else {
+    // Fallback: let nodemailer resolve service by name
+    transportOptions = {
+      service: process.env.EMAIL_SERVICE,
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASSWORD },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+    };
+  }
+
+  const t = nodemailer.createTransport(transportOptions);
+  // Verify transporter on startup (non-blocking)
+  t.verify()
+    .then(() => console.log('Email transporter verified'))
+    .catch((err) => console.warn('Email transporter verification failed:', err && err.message ? err.message : err));
+
+  return t;
+}
+
+const transporter = createTransporter();
+
+// Helper: send with simple retry
+async function sendMailWithRetry(mailOptions, attempts = 2) {
+  for (let i = 0; i < attempts; i += 1) {
+    try {
+      return await transporter.sendMail(mailOptions);
+    } catch (err) {
+      console.error(`sendMail attempt ${i + 1} failed:`, err && err.message ? err.message : err);
+      if (i === attempts - 1) throw err;
+      // small backoff
+      await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
+    }
+  }
+}
 
 // Send email endpoint
 app.post('/api/send-email', async (req, res) => {
@@ -49,7 +99,7 @@ app.post('/api/send-email', async (req, res) => {
     };
 
     // Send email
-    await transporter.sendMail(mailOptions);
+    await sendMailWithRetry(mailOptions);
 
     // Optional: Send confirmation email to the visitor
     const confirmationMail = {
@@ -66,7 +116,7 @@ app.post('/api/send-email', async (req, res) => {
       `,
     };
 
-    await transporter.sendMail(confirmationMail);
+    await sendMailWithRetry(confirmationMail);
 
     res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
