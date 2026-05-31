@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useEffect } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
+import ScrollToTop from './components/ui/ScrollToTop';
 
 // Layout
 import Navbar from './components/layout/Navbar';
@@ -42,6 +43,7 @@ function App() {
           </AnimatePresence>
         </main>
         <Footer />
+        <ScrollToTop />
       </div>
     </ThemeProvider>
   );

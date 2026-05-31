@@ -11,6 +11,8 @@ const contactInfo = [
   { name: 'Location', icon: MapPin, value: 'Madurai, India', href: '#', color: 'text-emerald-500' },
 ];
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://vish-portfolio-m05l.onrender.com';
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -47,7 +49,7 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/send-email', {
+      const response = await fetch(`${API_BASE_URL}/api/send-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

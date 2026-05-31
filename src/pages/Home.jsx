@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Terminal, ChevronRight, Layout, Database, Palette, Server, GitBranch, Code2, Cpu, Globe } from 'lucide-react';
+import { ArrowRight, Terminal, Layout, Database, Palette, Server, GitBranch, Code2, Cpu, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
 
@@ -63,27 +63,18 @@ const techStack = [
   { name: 'React', icon: Globe },
   { name: 'Node.js', icon: Server },
   { name: 'MongoDB', icon: Database },
-  { name: 'Tailwind', icon: Palette },
+  { name: 'Tailwind CSS', icon: Palette },
   { name: 'JavaScript', icon: Code2 },
   { name: 'Express', icon: Server },
   { name: 'Git', icon: GitBranch },
-  { name: 'Tailwind', icon: Layout },
+  { name: 'UI Design', icon: Layout },
 ];
 
 const getProgress = (solved, total) => (total ? Math.round((solved / total) * 100) : 0);
 
 export default function Home() {
   const typedText = useTypingEffect(roles);
-  const [showScrollTop, setShowScrollTop] = useState(false);
   // LeetCode state removed
-
-  useEffect(() => {
-    const handleScroll = () => setShowScrollTop(window.scrollY > 400);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <div className="flex flex-col gap-32 py-12 lg:py-20 lg:pb-32 px-4 md:px-0 max-w-[1440px] mx-auto">
@@ -242,17 +233,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-
-      {showScrollTop && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          onClick={scrollToTop}
-          className="fixed bottom-12 right-12 p-4 rounded-2xl bg-primary text-white shadow-2xl z-50 hover:bg-secondary transition-colors"
-        >
-          <ChevronRight size={24} className="-rotate-90" />
-        </motion.button>
-      )}
     </div>
-  );
-}
+    );
+  }
