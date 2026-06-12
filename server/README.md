@@ -1,6 +1,6 @@
 # Portfolio Server Setup
 
-This is the backend server for the portfolio contact form using Express and Nodemailer.
+This is the backend server for the portfolio contact form using Express and the Resend email API.
 
 ## Setup Instructions
 
@@ -13,25 +13,20 @@ npm install
 Create a `.env` file in the `server` directory with the following variables:
 
 ```
-EMAIL_SERVICE=gmail
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your-app-password
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
 RECIPIENT_EMAIL=your-email@gmail.com
 PORT=5000
 ```
 
-### 3. Getting Gmail App Password
-1. Go to [Google Account Security](https://myaccount.google.com/apppasswords)
-2. Select "Mail" and "Windows Computer" (or your device)
-3. Google will generate a 16-character password
-4. Use this password as `EMAIL_PASSWORD` in your `.env` file
+### 3. Render Environment Variables
+On Render, remove the old email variables and add:
 
-### 4. For Other Email Providers
-- **Outlook/Hotmail**: Use `EMAIL_SERVICE=outlook` and generate app passwords from account settings
-- **Yahoo**: Use `EMAIL_SERVICE=yahoo` and generate app passwords
-- **Custom SMTP**: Modify the transporter configuration in `server.js`
+```
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
+RECIPIENT_EMAIL=nagavishnukarthikbs@gmail.com
+```
 
-### 5. Run the Server
+### 4. Run the Server
 
 **Development (with auto-reload):**
 ```bash
